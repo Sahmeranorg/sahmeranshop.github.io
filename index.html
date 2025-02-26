@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SahmeranCheck - Giriş Yap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        .info-text {
+            color: yellow;
+            font-weight: bold;
+        }
+        .sparkle {
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff00ff, #ffff00, #00ffff, #ff00ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: sparkle 3s infinite linear;
+        }
+        @keyframes sparkle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+	<!-- Otomatik oynayan müzik -->
+    <audio autoplay loop>
+        <source src="index.mp3" type="audio/mpeg">
+        Tarayıcınız bu ses öğesini desteklemiyor.
+    </audio>
+    <div class="container">
+        <img src="https://i.hizliresim.com/rb06rkz.gif?_gl=1*diby59*_ga*NTQ3NjQ4Njg0LjE3Mzg1MjA1MTA.*_ga_M9ZRXYS2YN*MTczODU1MzUzOC4zLjEuMTczODU1MzcwOS4yNy4wLjA." alt="SahmeranCheck GIF">
+        <h1 style="color: red;">SAHCHECKERS</h1>
+        <p class="info-text">Satın Almış Olduğunuz Keyi Girerek Sistemlerimize Erişebilirsiniz.</p>
+        <input type="text" id="keyInput" placeholder="Key Giriniz.">
+        <br>
+        <button onclick="checkKey()">Giriş Yap</button>
+       <p><a href="https://www.instagram.com/sahmeranjpg/" target="_blank" class="sparkle">Key Satın Almak İçin, İnstagram'dan Bize Ulaşın.</a></p>
+    </div>
+
+    <script>
+        // Doğru key burada tanımlanır
+        const validKey = "sanaltanrisiyim"; // Buraya kendi belirlediğiniz keyi yazın
+
+        function checkKey() {
+            const userKey = document.getElementById("keyInput").value;
+
+            if (userKey === validKey) {
+                alert("Giriş Başarılı! 🎉");
+                // Burada giriş sonrası yönlendirme yapılabilir
+                window.location.href = "dashboard.html"; // Kullanıcıyı başka bir sayfaya yönlendirin
+            } else {
+                alert("Hatalı Key! ❌");
+            }
+        }
+    </script>
+</body>
+</html>

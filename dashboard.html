@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+        }
+        .sahchecker { color: red; font-weight: bold; }
+        .checker-name { color: lime; font-weight: bold; }
+        .crackers { color: purple; font-weight: bold; }
+        .sparkle {
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff00ff, #ffff00, #00ffff, #ff00ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: sparkle 3s infinite linear;
+        }
+        .vip-icon {
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes sparkle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            color: white;
+        }
+        table th, table td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+        table th { background-color: #333; }
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            background-color: #ff5722;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover { background-color: #e64a19; }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="panel.mp3" type="audio/mpeg">
+        Tarayıcınız bu ses öğesini desteklemiyor.
+    </audio>
+    <div class="container">
+        <!-- GIF ekleme kısmı (küçültülmüş) -->
+        <img src="https://i.hizliresim.com/5zegg0s.gif?_gl=1*eu6v6s*_ga*NTQ3NjQ4Njg0LjE3Mzg1MjA1MTA.*_ga_M9ZRXYS2YN*MTczODU1MzUzOC4zLjEuMTczODU1NTUzNi40My4wLjA." alt="SahmeranCheck GIF" style="width: 70%; max-width: 280px; margin-bottom: 15px;"/>
+
+        <h1 class="sahchecker">SAHCHECKERS</h1>
+        <p id="userInfo" class="crackers"></p>
+
+        <div class="info-box">
+            <p>Üyelik Bitiş: <span id="endDate" class="sparkle"></span></p>
+        </div>
+
+        <p class="checker-name">Checker İsmi:</p>
+        <input type="text" id="searchInput" placeholder="Checker İsmi Girin">
+        <button onclick="searchChecker()">Ara</button>
+
+        <table id="resultTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Checker Adı</th>
+                    <th>URL</th>
+                    <th>İndir</th>
+                    <th>Kopyala</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <button onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <script>
+        const userData = {
+            username: 'CRACKERS',
+            endDate: 'Sınırsız',
+            isVIP: true
+        };
+
+        document.getElementById("userInfo").innerHTML = `
+            ${userData.username} 
+            ${userData.isVIP ? '<span class="sparkle">VİP <img src="https://i.hizliresim.com/c0x79s5.png" class="vip-icon" alt="VIP"></span>' : ''}
+        `;
+        
+        document.getElementById("endDate").innerHTML = `<span class="sparkle">${userData.endDate}</span>`;
+
+        // Checker URL verileri
+        const urlData = {
+            "bilyoner": "https://www.mediafire.com/file/frgmy5r6991ysqb/BilyonerChecker.py/file",
+            "disney": "https://www.mediafire.com/file/phwd8n3uwpifebw/DisneyChecker.py/file",
+            "duolingo": "https://www.mediafire.com/file/op4yvdra3nisaam/DualingoCheck.py/file",
+            "exxen": "https://www.mediafire.com/file/epthdzrw3wgwyh4/Exxen_Checkers_Tool.py/file",
+            "instagram": "https://www.mediafire.com/file/6t6s92sub7byblm/instacombocheck.py/file",
+            "kwai": "https://www.mediafire.com/file/n8x57rs7u7g8dvn/KwaiChecker.py/file",
+            "lacoste": "https://www.mediafire.com/file/6qf80fjj4y07kld/LacosteChecker.py/file",
+            "netflix": "https://www.mediafire.com/file/qbx1bysmqxthicp/Netflix_Checker_Tool.py/file",
+            "onlyfans": "https://www.mediafire.com/file/llc7dfk33nk5ui8/OnlyFansChecker.py/file",
+            "pazarama": "https://www.mediafire.com/file/9g592qiyeqq301g/PazaramaCheck.py/file",
+            "spotify": "https://www.mediafire.com/file/uz3kgo12r4jyhy3/SpotifyChecker_Tool.py/file",
+            "steam": "https://www.mediafire.com/file/su3z07svzfueow9/SteamChecker.py/file",
+            "tabii": "https://www.mediafire.com/file/hirndsvfpxx76nn/TabiiChecker.py/file",
+            "tiktok": "https://www.mediafire.com/file/cy64chrg352xnae/TiktokChecker.py/file",
+            "uygunsms": "https://www.mediafire.com/file/odavgb1lydp0t0m/UygunSms.py/file",
+            "beinconnect": "https://www.mediafire.com/file/6ezc8v8vy3wnqw4/BeinConnet.py/file",
+            "betine": "https://www.mediafire.com/file/pmmv4ergdg9p3sp/BetineChecker.py/file",
+            "dosyaco": "https://www.mediafire.com/file/is4gfak54yhasri/DosyaCoChecker.py/file",
+            "hotmail": "https://www.mediafire.com/file/38dqa3ztzeqc3dl/HotmailOutlok_Check.py/file",
+            "pes": "https://www.mediafire.com/file/k6c7kjrvnq0la1r/PesKonamiCheck.py/file",
+            "pubg": "https://www.mediafire.com/file/bgszk1onwa9dvgx/PUBGChecker.py/file",
+            "todtv": "https://www.mediafire.com/file/tbhkk0w9odoea57/TodTvCheck.py/file",
+            "tarafbet": "https://www.mediafire.com/file/b4c7wsvczitux3v/TarafBetChecker.py/file",
+            "supercell": "https://www.mediafire.com/file/c8iomotxf20q9ef/SupercellChecker.py/file",
+            "trendyol": "https://www.mediafire.com/file/l08op6ruwh8oaea/TrendyolChecker.py/file",
+            "uygunsms": "https://www.mediafire.com/file/odavgb1lydp0t0m/UygunSms.py/file",
+            "zula": "https://www.mediafire.com/file/g0p9wg2kiiwp5iv/ZulaCheck.py/file",
+            "hit": "https://www.mediafire.com/file/sv6p79rz3w589yu/InstaGmailHit.py/file",
+            "list": "https://www.mediafire.com/folder/lg8fy72cn4cxo/root@sahmeran"
+        };
+
+        function searchChecker() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase().trim();
+            const table = document.getElementById("resultTable");
+            const tableBody = document.getElementById("tableBody");
+            
+            tableBody.innerHTML = ""; // Önceki sonuçları temizle
+
+            if (urlData[searchValue]) {
+                const url = urlData[searchValue];
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${searchValue}</td>
+                    <td style="word-break: break-word;">${url}</td>
+                    <td><button onclick="downloadFile('${url}')">İndir</button></td>
+                    <td><button onclick="copyLink('${url}')">Kopyala</button></td>
+                `;
+
+                tableBody.appendChild(row);
+                table.style.display = "table"; // Tabloyu görünür yap
+            } else {
+                alert("Bu isim için bir URL bulunamadı.");
+                table.style.display = "none"; // Tabloyu gizle
+            }
+        }
+
+        function downloadFile(url) {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = url.split('/').pop();
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function copyLink(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert("Bağlantı kopyalandı: " + url);
+            });
+        }
+
+        function logout() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
